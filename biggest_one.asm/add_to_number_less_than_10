@@ -1,0 +1,52 @@
+.model small
+.stack 100h
+
+.data 
+    n db 'Enter digits:$'
+    msg db 'Sum is greater than 9$'
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; Show input prompt
+    mov ah, 09h
+    lea dx, n
+    int 21h 
+
+    ; First digit
+    mov ah, 1
+    int 21h
+    sub al, 48
+    mov bl, al
+
+    ; Second digit
+    mov ah, 1
+    int 21h
+    sub al, 48
+    mov bh, al
+
+    ; Calculate sum
+    mov al, bl
+    add al, bh       ; AL = bl + bh
+    cmp al, 10
+    jae print_msg    ; If sum >= 10, print message
+
+    ; Print sum
+    add al, 48       ; Convert to ASCII
+    mov dl, al
+    mov ah, 2
+    int 21h
+    jmp exit
+
+print_msg:
+    mov ah, 09h
+    lea dx, msg
+    int 21h
+
+exit:
+    mov ah, 4Ch
+    int 21h
+main endp
+end main
