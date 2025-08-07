@@ -1,0 +1,45 @@
+.model small
+.stack 100h
+.data
+.code 
+main proc
+ mov ax,@data
+ mov ds,ax
+ 
+ 
+ mov ah,1
+ int 21h
+ mov bl,al
+ 
+ cmp bl,'A'
+ jb print_char
+ cmp bl,'Z'
+ ja print_char
+ 
+ 
+ add bl,32
+ jmp display
+ 
+  
+  print_char:
+  cmp bl,'a'
+  jb display
+  
+  cmp bl,'z'
+  ja display 
+  sub bl,32
+  
+  display:
+  mov ah,2
+  mov dl,bl
+  int 21h
+  
+  mov ah,4ch
+  int 21h
+ main endp
+end main
+
+    
+    
+    
+    
