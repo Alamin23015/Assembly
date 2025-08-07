@@ -1,0 +1,40 @@
+.model small
+.stack 100h
+.data
+o db 'o$'
+e db 'e$'
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    
+    mov ah,1
+    int 21h
+    
+    cmp al,'1'
+    je print_o
+    cmp al,'3'
+    je print_o 
+    
+    cmp al,'2'
+    je print_e
+    cmp al,'4'
+    je print_e
+    jmp exit 
+    
+     print_o:
+     lea dx,o
+     jmp show
+     
+     print_e:
+     lea dx,e 
+     
+     show:
+     mov ah,9
+     int 21h
+
+     exit:
+     mov ah,4ch
+     int 21h
+     main endp
+end main
