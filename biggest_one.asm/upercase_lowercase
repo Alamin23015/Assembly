@@ -16,10 +16,8 @@ main proc
  cmp bl,'Z'
  ja print_char
  
- 
  add bl,32
  jmp display
- 
   
   print_char:
   cmp bl,'a'
