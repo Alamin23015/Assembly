@@ -1,0 +1,37 @@
+.model small
+.stack 100h
+.data
+    arr db 5 dup(?)       ; ৫টা সংখ্যা রাখার জন্য অ্যারে
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, 5             ; ৫ বার ইনপুট নেবে
+    mov si, 0
+
+; ===== ইনপুট এবং স্ট্যাকে PUSH =====
+input_loop:
+    mov ah, 1             ; ১ ক্যারেক্টার ইনপুট
+    int 21h
+    sub al, 30h           ; ASCII → সংখ্যা
+    mov arr[si], al       ; অ্যারেতে রাখো
+    mov ah, 0
+    push ax               ; স্ট্যাকে রাখো
+    inc si
+    loop input_loop
+
+; ===== স্ট্যাক থেকে POP করে উল্টো প্রিন্ট =====
+    mov cx, 5
+print_loop:
+    pop ax
+    add al, 30h           ; সংখ্যা → ASCII
+    mov dl, al
+    mov ah, 2
+    int 21h
+    loop print_loop
+
+    mov ah, 4Ch
+    int 21h
+main endp
+end main
