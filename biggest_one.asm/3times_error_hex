@@ -1,0 +1,50 @@
+.model small
+.stack 100h
+.data
+msg db 'You try times Invalib Hex $' 
+msg1 db 'Enter hex digit(1-9)Or(A-F): $'
+newl db 13,10,'$'
+.code 
+main proc 
+    mov ax,@data
+    mov ds,ax
+             
+    mov cx,3 
+    input:
+    lea dx ,msg1 
+    mov ah,9
+    int 21h
+    
+    mov ah,1
+    int 21h  
+    lea dx,newl
+    mov ah,9
+    int 21h
+    
+    cmp al,'0'
+    jb invalid
+    cmp al,'9'
+    jbe valid
+    
+    cmp al,'A'
+    jb invalid
+    cmp al,'F'
+    jbe valid 
+    
+    invalid: 
+    
+    loop input
+    lea dx,msg
+    mov ah,9
+    int 21h
+    
+    valid:
+    mov dl,al
+    mov ah,2
+    int 21h
+    
+    mov ah,4ch
+    int 21h   
+    main endp
+end main
+    
